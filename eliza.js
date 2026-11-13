@@ -3,6 +3,7 @@
   const input = document.querySelector('#user-input');
   const messages = document.querySelector('#messages');
   const lookupToggle = document.querySelector('#lookup-toggle');
+  const widerSearch = document.querySelector('#wider-search');
   const storageKey = 'eliza-chat-v1';
   const interests = [
     { name: 'philosophy', words: ['philosophy', 'meaning', 'existential', 'existence', 'consciousness', 'ethics', 'camus', 'nihilism', 'death', 'purpose'] },
@@ -109,6 +110,8 @@
     input.value = '';
     input.focus();
     const topics = matchingInterests(text);
+    const searchTerms = topics.length ? `${text} ${topics.join(' ')}` : text;
+    widerSearch.href = `https://www.google.com/search?q=${encodeURIComponent(searchTerms)}`;
     const shouldSearch = lookupToggle.checked;
     const typing = document.createElement('article');
     typing.className = 'message bot-message typing';

@@ -7,7 +7,7 @@
   <meta name="description" content="Talk with ELIZA, a gloomy little virtual companion for curious minds.">
   <title>ELIZA — A Virtual Companion</title>
   <link rel="stylesheet" href="eliza.css?v=1">
-  <script src="eliza.js?v=1" defer></script>
+  <script src="eliza.js?v=2" defer></script>
 </head>
 <body>
   <div class="page-shell">
@@ -79,7 +79,7 @@
             <label class="lookup-toggle"><input id="lookup-toggle" type="checkbox" checked><span class="toggle-ui"></span><span>Look up a source with each message</span></label>
             <span class="key-hint">ENTER TO SEND</span>
           </div>
-          <p class="privacy-note">This prototype remembers this chat only in this browser. Search uses Wikipedia and opens sources you can check.</p>
+          <p class="privacy-note">The transcript is saved in this browser, but each reply is generated independently. Wikipedia lookup needs an internet connection.</p>
         </div>
 
         <aside class="side-panel">
@@ -97,7 +97,7 @@
           <div class="side-card about-card">
             <p class="eyebrow">HOW SHE WORKS</p>
             <p>ELIZA uses classic pattern-based conversation and can fetch live Wikipedia summaries. She is a student project, not a human or a hosted AI model.</p>
-            <a href="https://www.google.com/search?q=artificial+intelligence+philosophy+martial+arts+food" target="_blank" rel="noopener noreferrer">Search the wider web <span aria-hidden="true">↗</span></a>
+            <a id="wider-search" href="https://www.google.com/search?q=artificial+intelligence+philosophy+martial+arts+food" target="_blank" rel="noopener noreferrer">Search the wider web <span aria-hidden="true">↗</span></a>
           </div>
         </aside>
       </section>
