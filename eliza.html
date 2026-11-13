@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#11121a">
+  <meta name="description" content="Talk with ELIZA, a gloomy little virtual companion for curious minds.">
+  <title>ELIZA — A Virtual Companion</title>
+  <link rel="stylesheet" href="eliza.css?v=1">
+  <script src="eliza.js?v=1" defer></script>
+</head>
+<body>
+  <div class="page-shell">
+    <nav class="topbar" aria-label="Main navigation">
+      <a class="wordmark" href="index.html"><span class="wordmark-mark">A.</span> ANGELO COLANTUONO</a>
+      <a class="back-link" href="index.html"><span aria-hidden="true">←</span> Back to my site</a>
+    </nav>
+
+    <main>
+      <header class="intro">
+        <div class="intro-copy">
+          <p class="eyebrow"><span class="status-dot"></span> A SMALL EXPERIMENT IN ARTIFICIAL INTELLIGENCE</p>
+          <h1>Meet <span>ELIZA.</span></h1>
+          <p class="intro-text">A curious companion for the questions that keep you up. She looks for meaning in a universe that has misplaced the instructions.</p>
+          <div class="interest-row" aria-label="Topics ELIZA knows you enjoy">
+            <span>YOUR CURIOSITIES</span><i>Philosophy</i><i>Martial arts</i><i>Artificial intelligence</i><i>Food</i>
+          </div>
+        </div>
+
+        <div class="portrait-wrap" aria-label="Illustration of ELIZA, with curly hair and glasses">
+          <div class="portrait-orbit orbit-one"></div>
+          <div class="portrait-orbit orbit-two"></div>
+          <div class="avatar" role="img" aria-label="A friendly illustrated face with curly dark hair, round glasses, and a small smile">
+            <div class="hair-back"></div>
+            <div class="curl curl-a"></div><div class="curl curl-b"></div><div class="curl curl-c"></div>
+            <div class="curl curl-d"></div><div class="curl curl-e"></div><div class="curl curl-f"></div>
+            <div class="face">
+              <div class="ear ear-left"></div><div class="ear ear-right"></div>
+              <div class="brow brow-left"></div><div class="brow brow-right"></div>
+              <div class="glasses glasses-left"><span></span></div><div class="glasses glasses-right"><span></span></div>
+              <div class="bridge"></div>
+              <div class="nose"></div><div class="smile"></div>
+              <div class="cheek cheek-left"></div><div class="cheek cheek-right"></div>
+            </div>
+            <div class="neck"></div><div class="shirt"></div>
+          </div>
+          <div class="portrait-caption"><span>ELIZA</span><span>ONLINE, ALLEGEDLY</span></div>
+          <span class="sparkle sparkle-one">✳</span><span class="sparkle sparkle-two">✦</span>
+        </div>
+      </header>
+
+      <section class="workbench" aria-label="ELIZA chat">
+        <div class="chat-panel">
+          <div class="chat-topline">
+            <div><p class="eyebrow">THE CONVERSATION</p><h2>A little company in the void.</h2></div>
+            <button class="reset-button" id="reset-chat" type="button" title="Start a new conversation">↻ <span>New chat</span></button>
+          </div>
+
+          <div class="messages" id="messages" role="log" aria-live="polite" aria-relevant="additions text">
+            <article class="message bot-message">
+              <div class="message-avatar" aria-hidden="true">E</div>
+              <div class="message-content"><p class="speaker">ELIZA <time>JUST NOW</time></p><div class="bubble"><p>Hi. I’m ELIZA. The universe is mostly indifferent, but I can still listen. What’s on your mind?</p></div></div>
+            </article>
+          </div>
+
+          <div class="suggestions" aria-label="Try asking ELIZA">
+            <span>TRY ONE OF THESE</span>
+            <button type="button" data-prompt="Does life have meaning?">Does life have meaning?</button>
+            <button type="button" data-prompt="How does martial arts training affect the mind?">Martial arts &amp; the mind</button>
+            <button type="button" data-prompt="What makes artificial intelligence interesting?">The promise of AI</button>
+          </div>
+
+          <form class="composer" id="chat-form">
+            <label class="sr-only" for="user-input">Your message to ELIZA</label>
+            <input id="user-input" name="message" type="text" maxlength="500" autocomplete="off" placeholder="Tell her what has been haunting you…" required>
+            <button class="send-button" type="submit" aria-label="Send message">Send <span aria-hidden="true">↗</span></button>
+          </form>
+          <div class="composer-foot">
+            <label class="lookup-toggle"><input id="lookup-toggle" type="checkbox" checked><span class="toggle-ui"></span><span>Look up a source with each message</span></label>
+            <span class="key-hint">ENTER TO SEND</span>
+          </div>
+          <p class="privacy-note">This prototype remembers this chat only in this browser. Search uses Wikipedia and opens sources you can check.</p>
+        </div>
+
+        <aside class="side-panel">
+          <div class="side-card signal-card">
+            <p class="eyebrow">HER READ ON YOU</p>
+            <h3>Curiosity is a stubborn habit.</h3>
+            <p>ELIZA can connect your questions to the interests on your homepage: philosophy, martial arts, AI, and food.</p>
+            <div class="signal-line"><span class="signal-icon">↗</span><span>She looks for useful context, not just keywords.</span></div>
+          </div>
+          <div class="side-card note-card">
+            <p class="eyebrow">A NOTE FROM ELIZA</p>
+            <blockquote>“The stars have no advice. Still, they make a decent backdrop for thinking.”</blockquote>
+            <span class="note-signature">— ELIZA, PROBABLY</span>
+          </div>
+          <div class="side-card about-card">
+            <p class="eyebrow">HOW SHE WORKS</p>
+            <p>ELIZA uses classic pattern-based conversation and can fetch live Wikipedia summaries. She is a student project, not a human or a hosted AI model.</p>
+            <a href="https://www.google.com/search?q=artificial+intelligence+philosophy+martial+arts+food" target="_blank" rel="noopener noreferrer">Search the wider web <span aria-hidden="true">↗</span></a>
+          </div>
+        </aside>
+      </section>
+      <footer class="footer"><span>AI 109 · A STUDENT EXPERIMENT</span><span>THE VOID IS LISTENING <b>●</b></span></footer>
+    </main>
+  </div>
+</body>
+</html>
