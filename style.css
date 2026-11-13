@@ -4,20 +4,20 @@ body {
   margin: 30px auto;
   padding: 20px;
   line-height: 1.6;
-  color: #222;
+  color: blue;
   background: orange;
 }
 
 h1 {
-  border-bottom: 2px solid black;
+  border-bottom: 2px solid blue;
   padding-bottom: 10px;
 }
 
 h2 {
-  color: #0366d6;
+  color: blue;
   margin-top: 30px;
 }
 
 a {
-  color: #0366d6;
+  color: blue;
 }
