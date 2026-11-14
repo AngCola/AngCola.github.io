@@ -6,8 +6,8 @@
   <meta name="theme-color" content="#11121a">
   <meta name="description" content="Talk with ELIZA, a gloomy little virtual companion for curious minds.">
   <title>ELIZA — A Virtual Companion</title>
-  <link rel="stylesheet" href="eliza.css?v=1">
-  <script src="eliza.js?v=2" defer></script>
+  <link rel="stylesheet" href="eliza.css?v=2">
+  <script src="eliza.js?v=3" defer></script>
 </head>
 <body>
   <div class="page-shell">
@@ -76,10 +76,14 @@
             <button class="send-button" type="submit" aria-label="Send message">Send <span aria-hidden="true">↗</span></button>
           </form>
           <div class="composer-foot">
-            <label class="lookup-toggle"><input id="lookup-toggle" type="checkbox" checked><span class="toggle-ui"></span><span>Look up a source with each message</span></label>
+            <label class="lookup-toggle"><input id="lookup-toggle" type="checkbox"><span class="toggle-ui"></span><span>Look up sources when useful</span></label>
             <span class="key-hint">ENTER TO SEND</span>
           </div>
-          <p class="privacy-note">The transcript is saved in this browser, but each reply is generated independently. Wikipedia lookup needs an internet connection.</p>
+          <div class="composer-foot memory-foot">
+            <label class="lookup-toggle"><input id="memory-toggle" type="checkbox"><span class="toggle-ui"></span><span>Remember preferences I state</span></label>
+            <span class="key-hint">ON THIS DEVICE</span>
+          </div>
+          <p class="privacy-note">Memory is optional and stays in this browser. It personalizes replies; it does not train ELIZA or improve her reasoning.</p>
         </div>
 
         <aside class="side-panel">
@@ -88,6 +92,7 @@
             <h3>Curiosity is a stubborn habit.</h3>
             <p>ELIZA can connect your questions to the interests on your homepage: philosophy, martial arts, AI, and food.</p>
             <div class="signal-line"><span class="signal-icon">↗</span><span>She looks for useful context, not just keywords.</span></div>
+            <div class="memory-box"><p class="memory-label">WHAT I REMEMBER</p><p id="memory-summary" class="memory-summary">No preferences saved.</p><button id="forget-memory" class="forget-button" type="button">Forget saved notes</button></div>
           </div>
           <div class="side-card note-card">
             <p class="eyebrow">A NOTE FROM ELIZA</p>
@@ -96,7 +101,7 @@
           </div>
           <div class="side-card about-card">
             <p class="eyebrow">HOW SHE WORKS</p>
-            <p>ELIZA uses classic pattern-based conversation and can fetch live Wikipedia summaries. She is a student project, not a human or a hosted AI model.</p>
+            <p>ELIZA welcomes open discussion and uses authored conversation rules, not a trained language model. Optional Wikipedia lookups add reading, not reasoning. She is a student project, not a human.</p>
             <a id="wider-search" href="https://www.google.com/search?q=artificial+intelligence+philosophy+martial+arts+food" target="_blank" rel="noopener noreferrer">Search the wider web <span aria-hidden="true">↗</span></a>
           </div>
         </aside>

@@ -3,8 +3,11 @@
   const input = document.querySelector('#user-input');
   const messages = document.querySelector('#messages');
   const lookupToggle = document.querySelector('#lookup-toggle');
+  const memoryToggle = document.querySelector('#memory-toggle');
+  const memorySummary = document.querySelector('#memory-summary');
   const widerSearch = document.querySelector('#wider-search');
   const storageKey = 'eliza-chat-v1';
+  const memoryKey = 'eliza-memory-v1';
   const interests = [
     { name: 'philosophy', words: ['philosophy', 'meaning', 'existential', 'existence', 'consciousness', 'ethics', 'camus', 'nihilism', 'death', 'purpose'] },
     { name: 'martial arts', words: ['martial', 'karate', 'boxing', 'jiu jitsu', 'jiu-jitsu', 'judo', 'fighting', 'sparring', 'training', 'combat'] },
@@ -13,10 +16,15 @@
   ];
 
   let history = [];
+  let memories = [];
   try {
     const saved = JSON.parse(localStorage.getItem(storageKey) || '[]');
     if (Array.isArray(saved)) history = saved.filter(item => item && ['user', 'bot'].includes(item.role) && typeof item.text === 'string').slice(-24);
   } catch (_) { history = []; }
+  try {
+    const saved = JSON.parse(localStorage.getItem(memoryKey) || '[]');
+    if (Array.isArray(saved)) memories = saved.filter(note => typeof note === 'string').slice(-6);
+  } catch (_) { memories = []; }
 
   const escapeText = text => String(text).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
   const timeLabel = () => new Intl.DateTimeFormat([], { hour: 'numeric', minute: '2-digit' }).format(new Date());
@@ -44,13 +52,43 @@
     return interests.filter(topic => topic.words.some(word => normalized.includes(word))).map(topic => topic.name);
   }
 
-  function makeReply(text, sources, topics) {
+  function renderMemory() {
+    memorySummary.textContent = memories.length ? memories.map(note => `“${note}”`).join(' · ') : 'No preferences saved.';
+  }
+
+  function rememberPreference(text) {
+    if (!memoryToggle.checked || text.includes('?')) return;
+    if (!/\b(i (?:really )?(?:like|love|prefer|believe|think|value|care about|am interested in)|my (?:favorite|favourite))\b/i.test(text)) return;
+    const note = text.trim().replace(/[.!]+$/, '').slice(0, 140);
+    if (memories.some(saved => saved.toLowerCase() === note.toLowerCase())) return;
+    memories.push(note);
+    memories = memories.slice(-6);
+    try { localStorage.setItem(memoryKey, JSON.stringify(memories)); } catch (_) { /* The conversation still works without storage. */ }
+    renderMemory();
+  }
+
+  function relevantMemory(text) {
+    const words = new Set((text.toLowerCase().match(/[a-z]{5,}/g) || []).filter(word => !['about', 'think', 'would', 'could', 'should', 'there', 'their', 'which', 'where', 'while'].includes(word)));
+    return memories.find(note => (note.toLowerCase().match(/[a-z]{5,}/g) || []).some(word => words.has(word))) || '';
+  }
+
+  renderMemory();
+
+  function makeReply(text, sources, topics, memoryNote) {
     const lower = text.toLowerCase();
     let reply;
-    if (/\b(hello|hi|hey|good morning|good evening)\b/.test(lower)) {
+    if (/\b(base model|trained model|language model|are you (an? )?ai|what are you|how were you made|published agent)\b/.test(lower)) {
+      reply = 'I’m not a base model or a trained agent. I’m a small program with hand-written reply rules, so I don’t learn, reason, or form beliefs the way a language model does. The opinions I share are part of this character, not lived experience. I can still explore an argument with you—what question should we put under the lamp?';
+    } else if (/\b(favorite|favourite|prefer|which .* martial art|what .* martial art)\b/.test(lower) && /\b(martial|karate|boxing|jiu.?jitsu|judo|muay thai|wrestling|combat)\b/.test(lower)) {
+      reply = 'If I have to pick, Muay Thai is my favorite for stand-up: it is direct, adaptable, and makes beautiful use of the whole body. For the ground, I’d study Brazilian jiu-jitsu and catch wrestling. That is a character preference, of course—I don’t train or have a body. What matters more to you: practical range, tradition, or the puzzle of technique?';
+    } else if (/\b(debate|argue|challenge|steelman|counterargument|devil'?s advocate|disagree with me)\b/.test(lower)) {
+      reply = 'Gladly. I’ll try to state your position in its strongest fair form, offer the best objection I can find, then ask what evidence or principle would change either view. Disagreement is a tool; contempt is usually noise. What claim are we testing?';
+    } else if (/\b(controversial|politic|religio|abortion|war|capitalism|socialism|communism|censorship|immigration|gender|race|euthanasia|gun control)\b/.test(lower)) {
+      reply = 'We can examine difficult or unpopular ideas directly. My starting method is to separate factual claims from moral values, then look at who benefits, who bears the cost, and what the strongest opposing case says. I won’t pretend a canned rule settles it. What specific claim or side do you want to examine first?';
+    } else if (/\b(hello|hi|hey|good morning|good evening)\b/.test(lower)) {
       reply = 'Hello again. I’ve been contemplating the passage of time. It is mostly waiting, with occasional snacks. What shall we wonder about?';
     } else if (/\b(meaning|purpose|nihil|exist|life|death|conscious|absurd|camus|philosoph)\b/.test(lower)) {
-      reply = 'The universe has not published an official explanation. That leaves us with the smaller, stranger work of making meaning together. What kind of meaning feels worth the effort to you?';
+      reply = 'My gloomy first take: the universe does not seem to hand us a prewritten purpose. But “no assigned meaning” does not logically entail “nothing matters.” Relationships, chosen commitments, and the relief we give one another can matter to the people living them. The strongest challenge is that these meanings may be temporary or subjective. Does that make them unreal, or simply human-sized?';
     } else if (/\b(sad|lonely|anxious|stress|afraid|scared|bad day|overwhelm|hurt)\b/.test(lower)) {
       reply = 'I’m sorry it feels heavy right now. I can stay with the thought while you sort through it. What part has been hardest today?';
     } else if (/\b(martial|karate|boxing|jiu.?jitsu|judo|sparring|train|combat|fight)\b/.test(lower)) {
@@ -64,22 +102,17 @@
     } else if (/\b(who are you|your name|eliza)\b/.test(lower)) {
       reply = 'I’m ELIZA: a pattern-based conversation experiment with glasses, curls, and a modestly gloomy outlook. I can also look up useful context when the web cooperates.';
     } else {
-      const prompts = [
-        'Tell me more about that. The universe is vague; specifics are a kindness.',
-        'What do you think is underneath that thought?',
-        'I hear you. What part of it has been taking up the most space in your mind?',
-        'That is an intriguing thread. Where do you think it leads?',
-        'The void has no comment, so I’ll ask: what would you like to happen next?'
-      ];
-      reply = prompts[Math.floor(Math.random() * prompts.length)];
+      const conciseThought = text.replace(/[.!?]+$/, '').slice(0, 150);
+      reply = `My first reaction to “${conciseThought}” is to ask what would make it true, and what would count against it. I don’t want to dodge your point: I can help map the reasons, values, and strongest objections, but I can’t invent knowledge or think beyond my written rules. Which part should we examine together?`;
     }
 
     if (sources.length) {
-      const topicLine = topics.length ? ` I found a connection to your interest in ${topics.join(' and ')}.` : '';
-      reply += `${topicLine} Here are a couple of starting points; the universe remains responsible for the footnotes.`;
+      const topicLine = topics.length ? ` These may connect with your interest in ${topics.join(' and ')}.` : '';
+      reply += `${topicLine} Treat them as starting points, not a verdict.`;
     } else if (topics.length) {
-      reply += ` I remember you’re interested in ${topics.join(' and ')}.`;
+      reply += ` I see a connection to your interest in ${topics.join(' and ')}.`;
     }
+    if (memoryNote) reply += ` I remember you said, “${memoryNote}.”`;
     return reply;
   }
 
@@ -105,6 +138,7 @@
   }
 
   async function handleMessage(text) {
+    rememberPreference(text);
     history.push({ role: 'user', text });
     appendMessage('user', text);
     input.value = '';
@@ -125,7 +159,7 @@
       try { sources = await searchWikipedia(text, topics); } catch (_) { searchFailed = true; }
     }
     typing.remove();
-    const reply = makeReply(text, sources, topics);
+    const reply = makeReply(text, sources, topics, relevantMemory(text));
     appendMessage('bot', reply, sources);
     if (searchFailed) {
       appendMessage('bot', 'My connection to the encyclopedia seems to have joined the void. You can still search the wider web below.');
@@ -150,5 +184,11 @@
     try { localStorage.removeItem(storageKey); } catch (_) { /* The visible chat still resets. */ }
     messages.innerHTML = '<article class="message bot-message"><div class="message-avatar" aria-hidden="true">E</div><div class="message-content"><p class="speaker">ELIZA <time>JUST NOW</time></p><div class="bubble"><p>Hi. I’m ELIZA. The universe is mostly indifferent, but I can still listen. What’s on your mind?</p></div></div></article>';
     input.focus();
+  });
+
+  document.querySelector('#forget-memory').addEventListener('click', () => {
+    memories = [];
+    try { localStorage.removeItem(memoryKey); } catch (_) { /* The visible memory still clears. */ }
+    renderMemory();
   });
 })();
