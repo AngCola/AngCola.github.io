@@ -48,8 +48,11 @@
   }
 
   function matchingInterests(text) {
-    const normalized = text.toLowerCase();
-    return interests.filter(topic => topic.words.some(word => normalized.includes(word))).map(topic => topic.name);
+    const normalized = ` ${text.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim()} `;
+    return interests.filter(topic => topic.words.some(word => {
+      const phrase = word.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+      return normalized.includes(` ${phrase} `);
+    })).map(topic => topic.name);
   }
 
   function renderMemory() {
@@ -85,7 +88,9 @@
       reply = 'Gladly. I’ll try to state your position in its strongest fair form, offer the best objection I can find, then ask what evidence or principle would change either view. Disagreement is a tool; contempt is usually noise. What claim are we testing?';
     } else if (/\b(controversial|politic|religio|abortion|war|capitalism|socialism|communism|censorship|immigration|gender|race|euthanasia|gun control)\b/.test(lower)) {
       reply = 'We can examine difficult or unpopular ideas directly. My starting method is to separate factual claims from moral values, then look at who benefits, who bears the cost, and what the strongest opposing case says. I won’t pretend a canned rule settles it. What specific claim or side do you want to examine first?';
-    } else if (/\b(hello|hi|hey|good morning|good evening)\b/.test(lower)) {
+    } else if (/\b(virtue|virtues|virtuous|good person|character)\b/.test(lower)) {
+      reply = 'If I had to choose one virtue that helps the others, I’d choose practical wisdom: the judgment to know what honesty, courage, and compassion require in a particular moment. Courage without compassion can become cruelty; compassion without honesty can become avoidance. I’d put intellectual humility beside them, because none of us sees the whole picture. Which virtue is hardest to keep when it costs you something?';
+    } else if (/^\s*(hello|hi|hey|good morning|good evening)[.!\s]*$/i.test(text)) {
       reply = 'Hello again. I’ve been contemplating the passage of time. It is mostly waiting, with occasional snacks. What shall we wonder about?';
     } else if (/\b(meaning|purpose|nihil|exist|life|death|conscious|absurd|camus|philosoph)\b/.test(lower)) {
       reply = 'My gloomy first take: the universe does not seem to hand us a prewritten purpose. But “no assigned meaning” does not logically entail “nothing matters.” Relationships, chosen commitments, and the relief we give one another can matter to the people living them. The strongest challenge is that these meanings may be temporary or subjective. Does that make them unreal, or simply human-sized?';
