@@ -25,3 +25,8 @@ a {
   color: #0366d6;
   text-decoration-color: #0366d6;
 }
+
+img {
+  max-width: 100%;
+  height: auto;
+}
