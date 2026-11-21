@@ -11,7 +11,7 @@ button { cursor: pointer; }
 .topbar { height: 76px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #ffffff12; }
 .wordmark { display: flex; align-items: center; gap: 10px; font: 500 11px 'DM Mono', monospace; letter-spacing: .11em; }
 .wordmark-mark { display: grid; place-items: center; width: 27px; height: 27px; border: 1px solid #b6a1ff99; border-radius: 9px; color: var(--purple); font: 600 12px 'Space Grotesk', sans-serif; letter-spacing: 0; }
-.back-link { color: var(--muted); font-size: 12px; transition: color .2s; }.back-link:hover { color: var(--ink); }
+.back-link { color: var(--muted); font-size: 12px; transition: color .2s; }.back-link:hover { color: var(--ink); }.page-number { margin-left: 5px; color: var(--dim); font: 8px 'DM Mono', monospace; letter-spacing: .08em; }
 .intro { display: grid; grid-template-columns: 1fr 370px; align-items: center; gap: 40px; padding: 46px 4px 26px; }
 .eyebrow { margin: 0; color: var(--dim); font: 10px 'DM Mono', monospace; letter-spacing: .14em; }
 .intro-copy > .eyebrow { display: flex; align-items: center; gap: 9px; color: #aaa4b7; }
@@ -54,3 +54,36 @@ h1 span { color: var(--purple); }
 @media (max-width: 650px) { .page-shell { padding: 0 16px; }.topbar { height: 62px; }.wordmark { font-size: 9px; }.intro { grid-template-columns: 1fr; gap: 0; padding-top: 34px; }.intro-copy { order: 1; }.portrait-wrap { grid-row: 1; min-height: 180px; transform: scale(.82); margin: -13px 0 -5px; }.intro-text { max-width: 480px; }.interest-row > span { width: 100%; margin-bottom: 3px; }.workbench { grid-template-columns: 1fr; padding-top: 10px; }.side-panel { grid-template-columns: repeat(2, minmax(0, 1fr)); }.about-card { grid-column: 1 / -1; }.chat-panel { padding: 16px 14px; }.messages { min-height: 220px; }.message-content { max-width: 91%; }.footer { font-size: 7px; } }
 @media (max-width: 420px) { .back-link { font-size: 10px; }.side-panel { grid-template-columns: 1fr; }.about-card { grid-column: auto; }.chat-topline h2 { font-size: 16px; }.suggestions > span { width: 100%; }.composer-foot { align-items: flex-start; gap: 8px; }.key-hint { padding-top: 3px; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+
+/* Match the simple orange and blue style of the homepage. */
+body { max-width: 740px; margin: 30px auto; padding: 20px; background: orange; color: #0366d6; font: 16px/1.6 Arial, sans-serif; }
+.page-shell { max-width: none; margin: 0; padding: 0; }
+.topbar { height: auto; min-height: 42px; border-color: #0366d655; }
+.wordmark { font: 700 14px Arial, sans-serif; letter-spacing: 0; }
+.wordmark-mark { width: auto; height: auto; border: 0; border-radius: 0; color: #0366d6; font: inherit; }
+.back-link, .page-number { color: #0366d6; }
+.intro { grid-template-columns: 1fr; gap: 0; padding: 22px 0 10px; }
+.intro-copy > .eyebrow, .eyebrow, .interest-row > span, .interest-row i,
+.intro-text, .portrait-caption, .footer, .speaker, .speaker time,
+.lookup-toggle, .key-hint, .privacy-note, .side-card > p:not(.eyebrow),
+.signal-line, .memory-summary, .memory-label { color: #0366d6; }
+.intro h1 { font: bold 2em Arial, sans-serif; letter-spacing: normal; border-bottom: 2px solid #0366d6; padding-bottom: 10px; }
+.intro h1 span { color: #0366d6; }
+.portrait-wrap { min-height: 210px; }
+.portrait-caption span:first-child, .sparkle, .sparkle-two { color: #0366d6; }
+.workbench { grid-template-columns: 1fr; gap: 14px; padding: 10px 0 20px; }
+.chat-panel, .side-card, .signal-card, .note-card { border: 1px solid #0366d6; border-radius: 4px; background: #ffa500; box-shadow: none; }
+.chat-panel { padding: 16px; }
+.chat-topline { border-color: #0366d655; }
+.chat-topline h2, .side-card h3 { color: #0366d6; font: bold 1.25em Arial, sans-serif; letter-spacing: normal; }
+.reset-button, .suggestions button, .composer, .composer input, .send-button,
+.bubble, .message-avatar, .source-link, .toggle-ui { color: #0366d6; border-color: #0366d6; background: transparent; }
+.send-button { background: #0366d6; color: orange !important; }
+.message-avatar { color: #0366d6; }
+.bubble { border-radius: 4px; }
+.suggestions { border-color: #0366d655; }
+.about-card a, .forget-button, .note-signature, .signal-icon { color: #0366d6; }
+.memory-box, .signal-line { border-color: #0366d655; }
+.footer { border-color: #0366d655; }
+.footer b { color: #0366d6; }
+@media (max-width: 650px) { body { margin: 14px auto; padding: 16px; }.intro { grid-template-columns: 1fr; }.side-panel { grid-template-columns: 1fr; }.about-card { grid-column: auto; } }
